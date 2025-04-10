@@ -1,16 +1,17 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TravelBuddy</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
     <header class="header">
         <nav class="nav">
             <div class="logo">
-                <img src="images/Icons/Logo.svg" alt="TBud Logo">
+                <img src="{% static 'images/Icons/Logo.svg' %}" alt="TBud Logo">
             </div>
             <ul class="nav-list">
                 <li class="nav-item"><a href="/" class="nav-link active">Главная</a></li>
@@ -24,7 +25,7 @@
                 <li class="nav-item"><a href="/analytics" class="nav-link">Отчёты и аналитика</a></li>
             </ul>
             <div id="account">
-                <img src="images/Icons/Account.svg" alt="Account" class="account-icon">
+                <img src="{% static 'images/Icons/Account.svg' %}" alt="Account" class="account-icon">
                 <div class="dropdown-menu">
                     <a href="/settings">Настройки</a>
                     <a href="/logout" class="danger">Выход</a>
@@ -49,7 +50,7 @@
                 <div class="destinations-grid">
                     <article class="destination-card">
                         <div class="card-image">
-                            <img src="images/Czech.png" alt="Прага">
+                            <img src="{% static 'images/Czech.png' %}" alt="Прага">
                         </div>
                         <div class="card-content">
                             <h2 class="card-title">Прага, Чехия: город сказок и истории</h2>
@@ -59,7 +60,7 @@
 
                     <article class="destination-card">
                         <div class="card-image">
-                            <img src="images/Japan.png" alt="Киото">
+                            <img src="{% static 'images/Japan.png' %}" alt="Киото">
                         </div>
                         <div class="card-content">
                             <h2 class="card-title">Киото, Япония: дух древности в современном мире</h2>
@@ -69,7 +70,7 @@
 
                     <article class="destination-card">
                         <div class="card-image">
-                            <img src="images/Barcelona.png" alt="Барселона">
+                            <img src="{% static 'images/Barcelona.png' %}" alt="Барселона">
                         </div>
                         <div class="card-content">
                             <h2 class="card-title">Барселона, Испания: архитектура и страсть</h2>
@@ -85,14 +86,14 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-info">
-                    <img src="images/Icons/LogoBlack.svg" alt="TBud Logo" class="footer-logo">
+                    <img src="{% static 'images/Icons/LogoBlack.svg' %}" alt="TBud Logo" class="footer-logo">
                     <a href="tel:+88005555535">+8 800 555 35 35</a>
                     <p>mymail@mail.ru</p>
                 </div>
                 <div class="footer-links">
                     <h3>Ссылки</h3>
-                    <a href="#">Главная</a>
-                    <a href="#">Маршруты</a>
+                    <a href="/">Главная</a>
+                    <a href="/routes">Маршруты</a>
                     <a href="#">О компании</a>
                 </div>
             </div>

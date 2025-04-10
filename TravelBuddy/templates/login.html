@@ -1,22 +1,41 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Вход - TravelBuddy</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
 </head>
 <body>
     <div class="auth-container">
         <div class="auth-card">
-            <h1>ВХОД</h1>
-            <form class="auth-form" action="/login" method="POST">
-                <input type="text" placeholder="Логин" required>
-                <input type="password" placeholder="Пароль" required>
-                <button type="submit" class="auth-button">ВХОД</button>
+            <h1>Вход в систему</h1>
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-danger">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+            <form method="POST" action="{% url 'travel:login' %}" class="auth-form">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="form-group">
+                    {% if field.name == "password" %}
+                    <input type="password" class="auth-form input" name="{{ field.name }}" value="{{ field.value|default:'' }}" placeholder="{{ field.label }}">
+                    {% else %}
+                    <input type="text" class="auth-form input" name="{{ field.name }}" value="{{ field.value|default:'' }}" placeholder="{{ field.label }}">
+                    {% endif %}
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            <div class="alert alert-danger">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                {% endfor %}
+                <button type="submit" class="auth-button">Войти</button>
             </form>
-            <a href="/register" class="auth-link">Создать новый аккаунт</a>
+            <a href="{% url 'travel:register' %}" class="auth-link">Нет аккаунта? Зарегистрироваться</a>
         </div>
     </div>
 </body>
