@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация - TravelBuddy</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <h1>РЕГЕСТРАЦИЯ</h1>
+            <form class="auth-form" action="/register" method="POST">
+                <input type="text" placeholder="Имя" required>
+                <input type="text" placeholder="Логин" required>
+                <input type="email" placeholder="E-mail" required>
+                <input type="password" placeholder="Пароль" required>
+                <input type="password" placeholder="Подтвердите пароль" required>
+                <button type="submit" class="auth-button">РЕГИСТРАЦИЯ</button>
+            </form>
+            <a href="/login" class="auth-link">Уже есть аккаунт?</a>
+        </div>
+    </div>
+</body>
+</html> 

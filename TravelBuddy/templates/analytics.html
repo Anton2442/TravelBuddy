@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TravelBuddy</title>
+    <title>Отчёты и аналитика - TravelBuddy</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/analytics.css">
 </head>
 <body>
     <header class="header">
@@ -13,7 +14,7 @@
                 <img src="images/Icons/Logo.svg" alt="TBud Logo">
             </div>
             <ul class="nav-list">
-                <li class="nav-item"><a href="/" class="nav-link active">Главная</a></li>
+                <li class="nav-item"><a href="/" class="nav-link">Главная</a></li>
                 <li class="nav-item">
                     <a href="/routes" class="nav-link">Маршруты</a>
                     <div class="dropdown-menu">
@@ -21,10 +22,11 @@
                         <a href="/routes/create">Создать маршрут</a>
                     </div>
                 </li>
-                <li class="nav-item"><a href="/analytics" class="nav-link">Отчёты и аналитика</a></li>
+                <li class="nav-item"><a href="/analytics" class="nav-link active">Отчёты и аналитика</a></li>
             </ul>
             <div id="account">
-                <img src="images/Icons/Account.svg" alt="Account" class="account-icon">
+                <img src="images/Icons/Account.svg" alt="Account" class="default-icon">
+                <img src="images/Icons/AccountHover.svg" alt="Account" class="hover-icon">
                 <div class="dropdown-menu">
                     <a href="/settings">Настройки</a>
                     <a href="/logout" class="danger">Выход</a>
@@ -33,52 +35,69 @@
         </nav>
     </header>
 
-    <main>
-        <section class="hero">
-            <div class="hero-content">
-                <h1 class="hero-title">Откройте мир с TravelBuddy</h1>
-            </div>
-        </section>
-
-        <section class="destinations">
-            <div class="container">
-                <div class="card-content">
-                    <h2 class="card-title">Измир и Миконос: два лица Греции, одно путешествие</h2>
-                    <p class="card-description">Измир – это не только древний храм и музеи, но и современное курортное наследие – прекрасные сады. Если в Миконос – это очарование белых стен и синих куполов, которые стали символом всей Греции.</p>
+    <main class="analytics-main">
+        <div class="container">
+            <h1>Отчёты и аналитика</h1>
+            
+            <div class="analytics-grid">
+                <div class="analytics-card total-routes">
+                    <h3>Общее количество маршрутов</h3>
+                    <div class="stat-value">15</div>
+                    <div class="stat-trend positive">
+                        <span>+3 за последний месяц</span>
+                    </div>
                 </div>
-                <div class="destinations-grid">
-                    <article class="destination-card">
-                        <div class="card-image">
-                            <img src="images/Czech.png" alt="Прага">
-                        </div>
-                        <div class="card-content">
-                            <h2 class="card-title">Прага, Чехия: город сказок и истории</h2>
-                            <p class="card-description">Прага – это место, где средневековая Европа до сих пор жива. Пражский град и готические соборы возвышаются над городом.</p>
-                        </div>
-                    </article>
 
-                    <article class="destination-card">
-                        <div class="card-image">
-                            <img src="images/Japan.png" alt="Киото">
-                        </div>
-                        <div class="card-content">
-                            <h2 class="card-title">Киото, Япония: дух древности в современном мире</h2>
-                            <p class="card-description">Киото – город, где вековые традиции гармонично сочетаются с будущим. Древние храмы и сады создают уникальную атмосферу прошлого.</p>
-                        </div>
-                    </article>
+                <div class="analytics-card favorite-category">
+                    <h3>Любимая категория</h3>
+                    <div class="stat-value">
+                        <img src="images/Icons/culture.svg" alt="Культура">
+                        <span>Культура и традиции</span>
+                    </div>
+                    <div class="stat-detail">6 маршрутов</div>
+                </div>
 
-                    <article class="destination-card">
-                        <div class="card-image">
-                            <img src="images/Barcelona.png" alt="Барселона">
+                <div class="analytics-card route-costs">
+                    <h3>Стоимость маршрутов</h3>
+                    <div class="cost-stats">
+                        <div class="cost-item">
+                            <span>Самый дорогой:</span>
+                            <strong>25,000 ₽</strong>
                         </div>
-                        <div class="card-content">
-                            <h2 class="card-title">Барселона, Испания: архитектура и страсть</h2>
-                            <p class="card-description">Барселона – город, полный характера и архитектурных чудес. Творения Гауди украшают улицы этого удивительного города.</p>
+                        <div class="cost-item">
+                            <span>Самый дешёвый:</span>
+                            <strong>2,500 ₽</strong>
                         </div>
-                    </article>
+                        <div class="cost-item">
+                            <span>Средняя стоимость:</span>
+                            <strong>12,750 ₽</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="analytics-card last-route">
+                    <h3>Последний маршрут</h3>
+                    <div class="route-info">
+                        <div class="route-name">Путешествие по Золотому кольцу</div>
+                        <div class="route-date">15 марта 2024</div>
+                        <div class="route-category">
+                            <img src="images/Icons/history.svg" alt="История">
+                            <span>Исторические объекты</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </section>
+
+            <div class="analytics-chart-section">
+                <h2>Статистика по месяцам</h2>
+                <div class="chart-container">
+                    <!-- Here would be a chart showing routes created per month -->
+                    <div class="placeholder-chart">
+                        График активности будет добавлен позже
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <footer class="footer">
