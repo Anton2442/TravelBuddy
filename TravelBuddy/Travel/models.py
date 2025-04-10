@@ -68,7 +68,7 @@ class Route(models.Model):
     category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
     favorite = models.BooleanField(default=False)
 
-    REQUIRED_FIELDS = ['user_id', 'route_name', 'date']
+    REQUIRED_FIELDS = ['user_id', 'route_name', 'date', 'category_id']
 
     class Meta:
         verbose_name = 'Route'
