@@ -110,11 +110,19 @@
                             <th>Дата маршрута</th>
                             <th>Стоимость маршрута</th>
                             <th>Достопримечательности</th>
-                            <th></th>
+                            <th><a href="{% url 'travel:edit_route' route_id=0 %}"> <img src="{% static 'images/Map.svg' %}"> </a></th>
                         </tr>
                     </thead>
                     <tbody id="routes-tbody">
-                        <!-- Routes will be dynamically added here -->
+                        {% for route in routes %}
+                        <tr>
+                            <td>{{ route.route_name }}</td>
+                            <td>{{ route.date}}</td>
+                            <td>{{ route.cost }}</td>
+                            <td>{{ route.attractions }}</td>
+                            <!-- <td>Сюда сердечко</td> -->
+                        </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
                 <div id="no-routes" class="no-routes-message" style="display: none;">

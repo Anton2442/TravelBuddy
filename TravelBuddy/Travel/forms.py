@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import User, Route, Favorite
+from .models import User, Route, Favorite, Category
 from django.contrib.auth import authenticate
 
 class LoginForm(AuthenticationForm):
@@ -47,14 +47,26 @@ class RouteForm(forms.ModelForm):
     class Meta:
         model = Route
         fields = ['route_name', 'attractions', 'date', 'cost', 'category_id', 'favorite']
+        labels = {
+            'route_name':'Название маршрута',
+            'attractions':'Достопримечательности',
+            'date':'Дата',
+            'cost':'Стоимость',
+            'category_id':'Категория',
+            'favorite':'Избранный'
+        }
         widgets = {
-            'route_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Название маршрута'}),
-            'attractions': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Достопримечательности'}),
-            'date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date', 'placeholder': 'Дата'}),
-            'cost': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Стоимость'}),
+            'route_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'attractions': forms.Textarea(attrs={'class': 'form-control'}),
+            'date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'cost': forms.NumberInput(attrs={'class': 'form-control'}),
             'category_id': forms.Select(attrs={'class': 'form-control'}),
             'favorite': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super(RouteForm, self).__init__(*args, **kwargs)
+        self.fields['category_id'].empty_label = "Выберите категорию"
 
 class FavoriteForm(forms.ModelForm):
     class Meta:

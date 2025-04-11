@@ -41,19 +41,32 @@ def index(request):
 @login_required
 def routes(request):
     user_routes = Route.objects.filter(user_id=request.user)
+    print(user_routes)
     return render(request, 'routes.html', {'routes': user_routes})
 
 @login_required
 def edit_route(request, route_id):
-    route = get_object_or_404(Route, id=route_id, user_id=request.user)
-    if request.method == 'POST':
-        form = RouteForm(request.POST, instance=route)
-        if form.is_valid():
-            form.save()
-            return redirect('travel:routes')
+    if route_id != 0:
+        route = get_object_or_404(Route, id=route_id, user_id=request.user)
+        if request.method == 'POST':
+            form = RouteForm(request.POST, instance=route)
+            if form.is_valid():
+                form.save()
+                return redirect('travel:routes')
+        else:
+            form = RouteForm(instance=route)
+        return render(request, 'edit-route.html', {'form': form})
     else:
-        form = RouteForm(instance=route)
-    return render(request, 'edit-route.html', {'form': form, 'route': route})
+        if request.method == 'POST':
+            form = RouteForm(request.POST)
+            if form.is_valid():
+                route = form.save(commit=False)
+                route.user_id = request.user
+                route.save()
+                return redirect('travel:routes')
+        else:
+            form = RouteForm()
+        return render(request, 'edit-route.html', {'form': form})
 
 @login_required
 def delete_route(request, route_id):

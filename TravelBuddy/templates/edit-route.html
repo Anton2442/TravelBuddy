@@ -30,62 +30,32 @@
         <div class="container">
             <h1>Редактирование маршрута</h1>
             
-            <form class="route-form">
+            <form method="POST" class="route-form">
                 <div class="form-section">
                     <h2>Основная информация</h2>
+                    {% csrf_token %}
+                    {% for field in form %}
+                    {% if field.name == "favourite" %}
                     <div class="form-group">
-                        <label for="route-name">Название маршрута</label>
-                        <input type="text" id="route-name" required>
+                        <label for="{{ field.name }}">{{ field.label }}</label>
+                        {{ field }}
                     </div>
+                    {% else %}
                     <div class="form-group">
-                        <label for="route-date">Дата</label>
-                        <input type="date" id="route-date" required>
+                        <label for="{{ field.name }}">{{ field.label }}</label>
+                        {{ field }}
                     </div>
-                    <div class="form-group">
-                        <label for="route-category">Категория</label>
-                        <select id="route-category" required>
-                            <option value="">Выберите категорию</option>
-                            <option value="culture">Знакомство с традициями</option>
-                            <option value="history">Исторические объекты</option>
-                            <option value="nature">Природа и экотуризм</option>
-                            <option value="food">Местная кухня</option>
-                            <option value="sport">Спортивный маршрут</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-section">
-                    <h2>Точки маршрута</h2>
-                    <div id="route-points">
-                        <div class="route-point">
-                            <div class="form-group">
-                                <label>Название места</label>
-                                <input type="text" class="point-name" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Описание</label>
-                                <textarea class="point-description" rows="3"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>Стоимость (₽)</label>
-                                <input type="number" class="point-cost" min="0" required>
-                            </div>
-                            <button type="button" class="remove-point">Удалить точку</button>
-                        </div>
-                    </div>
-                    <button type="button" class="add-point">+ Добавить точку маршрута</button>
-                </div>
-
-                <div class="form-section">
-                    <h2>Дополнительная информация</h2>
-                    <div class="form-group">
-                        <label for="route-notes">Заметки</label>
-                        <textarea id="route-notes" rows="4"></textarea>
-                    </div>
+                    {% endif %}
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            <div class="alert alert-danger">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                    {% endfor %}
                 </div>
 
                 <div class="form-actions">
-                    <button type="button" class="cancel-button">Отмена</button>
+                    <a href="{% url 'travel:routes' %}" class="cancel-button">Отмена</a>
                     <button type="submit" class="save-button">Сохранить маршрут</button>
                 </div>
             </form>

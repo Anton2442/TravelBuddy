@@ -54,6 +54,9 @@ class Category(models.Model):
 
     REQUIRED_FIELDS = ['category_name']
 
+    def __str__(self):
+        return self.category_name
+
     class Meta:
         verbose_name = 'Category'
         verbose_name_plural = 'Categories'
@@ -69,6 +72,9 @@ class Route(models.Model):
     favorite = models.BooleanField(default=False)
 
     REQUIRED_FIELDS = ['user_id', 'route_name', 'date', 'category_id']
+
+    def __str__(self):
+        return self.route_name
 
     class Meta:
         verbose_name = 'Route'
