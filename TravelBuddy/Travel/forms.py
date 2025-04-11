@@ -74,4 +74,44 @@ class FavoriteForm(forms.ModelForm):
         fields = ['route_id']
         widgets = {
             'route_id': forms.Select(attrs={'class': 'form-control'}),
-        } 
+        }
+
+class ProfileEditForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['user_name', 'email']
+        labels = {
+            'user_name': 'Имя пользователя',
+            'email': 'Email',
+        }
+        widgets = {
+            'user_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Имя пользователя'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}),
+        }
+
+class PasswordChangeForm(forms.Form):
+    current_password = forms.CharField(
+        label='Текущий пароль',
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Текущий пароль'}),
+        required=True
+    )
+    new_password1 = forms.CharField(
+        label='Новый пароль',
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Новый пароль'}),
+        required=True
+    )
+    new_password2 = forms.CharField(
+        label='Подтверждение пароля',
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Подтверждение пароля'}),
+        required=True
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        new_password1 = cleaned_data.get('new_password1')
+        new_password2 = cleaned_data.get('new_password2')
+
+        if new_password1 and new_password2 and new_password1 != new_password2:
+            raise forms.ValidationError('Новые пароли не совпадают')
+        
+        return cleaned_data 

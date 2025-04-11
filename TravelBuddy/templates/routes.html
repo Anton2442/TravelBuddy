@@ -12,7 +12,7 @@
     <header class="header">
         <nav class="nav">
             <div class="logo">
-                <img src="images/Icons/Logo.svg" alt="TBud Logo">
+                <img src="{% static 'images/Icons/Logo.svg' %}" alt="TBud Logo">
             </div>
             <ul class="nav-list">
                 <li class="nav-item"><a href="/" class="nav-link">Главная</a></li>
@@ -20,14 +20,13 @@
                     <a href="/routes" class="nav-link active">Маршруты</a>
                     <div class="dropdown-menu">
                         <a href="/routes">Все маршруты</a>
-                        <a href="/routes/create">Создать маршрут</a>
+                        <a href="{% url 'travel:edit_route' route_id=0 %}">Создать маршрут</a>
                     </div>
                 </li>
                 <li class="nav-item"><a href="/analytics" class="nav-link">Отчёты и аналитика</a></li>
             </ul>
             <div id="account">
-                <img src="images/Icons/Account.svg" alt="Account" class="default-icon">
-                <img src="images/Icons/AccountHover.svg" alt="Account" class="hover-icon">
+                <img src="{% static 'images/Icons/Account.svg' %}" alt="Account" class="account-icon">
                 <div class="dropdown-menu">
                     <a href="/settings">Настройки</a>
                     <a href="/logout" class="danger">Выход</a>
@@ -45,14 +44,14 @@
                 <div class="categories-grid">
                     <div class="category-row">
                         <div class="category-card">
-                            <img src="images/Icons/CultureCategory.svg" alt="Культура">
+                            <img src="{% static 'images/Icons/CultureCategory.svg' %}" alt="Культура">
                             <div class="category-text">
                                 <strong>Культурный:</strong>
                                 <p>Знакомство с традициями, искусством региона.</p>
                             </div>
                         </div>
                         <div class="category-card">
-                            <img src="images/Icons/HistoryCategory.svg" alt="История">
+                            <img src="{% static 'images/Icons/HistoryCategory.svg' %}" alt="История">
                             <div class="category-text">
                                 <strong>Исторический:</strong>
                                 <p>Посещение древних городов, замков, руин и других исторических объектов.</p>
@@ -61,14 +60,14 @@
                     </div>
                     <div class="category-row">
                         <div class="category-card">
-                            <img src="images/Icons/EconomyCategory.svg" alt="Природа">
+                            <img src="{% static 'images/Icons/EconomyCategory.svg' %}" alt="Природа">
                             <div class="category-text">
                                 <strong>Экологический:</strong>
                                 <p>Фокус на природе, экотуризме и сохранении окружающей среды.</p>
                             </div>
                         </div>
                         <div class="category-card">
-                            <img src="images/Icons/FoodCategory.svg" alt="Кухня">
+                            <img src="{% static 'images/Icons/FoodCategory.svg' %}" alt="Кухня">
                             <div class="category-text">
                                 <strong>Кулинарный:</strong>
                                 <p>Изучение местной кухни, дегустация блюд и напитков.</p>
@@ -77,7 +76,7 @@
                     </div>
                     <div class="category-row center">
                         <div class="category-card">
-                            <img src="images/Icons/SportCategory.svg" alt="Спорт">
+                            <img src="{% static 'images/Icons/SportCategory.svg' %}" alt="Спорт">
                             <div class="category-text">
                                 <strong>Активный:</strong>
                                 <p>Спортивные или приключенческие путешествия.</p>
@@ -90,16 +89,24 @@
             <section class="routes-list">
                 <div class="routes-header">
                     <h2>Мои маршруты</h2>
-                    <div class="category-filter">
-                        <label for="route-category">Категория:</label>
-                        <select id="route-category">
-                            <option value="all">Все категории</option>
-                            <option value="culture">Культурный</option>
-                            <option value="history">Исторический</option>
-                            <option value="nature">Экологический</option>
-                            <option value="food">Кулинарный</option>
-                            <option value="sport">Активный</option>
-                        </select>
+                    <div class="filters-container">
+                        <div class="filter-group">
+                            <label for="route-category">Категория:</label>
+                            <select id="route-category">
+                                <option value="all">Все категории</option>
+                                {% for category in categories %}
+                                <option value="{{ category.category_name }}">{{ category.category_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="favorite-filter">Избранное:</label>
+                            <select id="favorite-filter">
+                                <option value="all">Все маршруты</option>
+                                <option value="favorite">Только избранные</option>
+                                <option value="not-favorite">Не избранные</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 
@@ -107,27 +114,42 @@
                     <thead>
                         <tr>
                             <th>Название маршрута</th>
+                            <th>Категория</th>
                             <th>Дата маршрута</th>
                             <th>Стоимость маршрута</th>
                             <th>Достопримечательности</th>
-                            <th><a href="{% url 'travel:edit_route' route_id=0 %}"> <img src="{% static 'images/Map.svg' %}"> </a></th>
+                            <th id="edit"><a href="{% url 'travel:edit_route' route_id=0 %}"> <img src="{% static 'images/Icons/WhiteMap.svg' %}"> </a></th>
                         </tr>
                     </thead>
                     <tbody id="routes-tbody">
                         {% for route in routes %}
-                        <tr>
+                        <tr onclick="window.location.href='{% url 'travel:edit_route' route_id=route.id %}'" style="cursor: pointer;" 
+                            data-category="{{ route.category_id.category_name }}"
+                            data-favorite="{{ route.favorite }}">
                             <td>{{ route.route_name }}</td>
-                            <td>{{ route.date}}</td>
+                            <td>{{ route.category_id.category_name }}</td>
+                            <td>{{ route.date }}</td>
                             <td>{{ route.cost }}</td>
                             <td>{{ route.attractions }}</td>
-                            <!-- <td>Сюда сердечко</td> -->
+                            <td>
+                                <form class="favorite-form" method="POST" action="{% url 'travel:change_favourite' route_id=route.id %}" onclick="event.stopPropagation();">
+                                    {% csrf_token %}
+                                    <button type="submit" class="Favbtn">
+                                        {% if route.favorite %}
+                                        <img src="{% static 'images/Icons/FavouriteFilled.svg' %}" alt="Избранное">
+                                        {% else %}
+                                        <img src="{% static 'images/Icons/Favourite.svg' %}" alt="Не избранное">
+                                        {% endif %}
+                                    </button>
+                                </form>
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
-                <div id="no-routes" class="no-routes-message" style="display: none;">
+                <div id="no-routes" class="no-routes-message" style="{% if routes %}display: none;{% endif %}">
                     <p>У вас пока нет созданных маршрутов</p>
-                    <button class="create-route-btn">Создать первый маршрут</button>
+                    <a style="text-decoration: none;" href="{% url 'travel:edit_route' route_id=0 %}" class="create-route-btn">Создать первый маршрут</a>
                 </div>
             </section>
         </div>
@@ -137,7 +159,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-info">
-                    <img src="images/Icons/LogoBlack.svg" alt="TBud Logo" class="footer-logo">
+                    <img src="{% static 'images/Icons/LogoBlack.svg' %}" alt="TBud Logo" class="footer-logo">
                     <a href="tel:+88005555535">+8 800 555 35 35</a>
                     <p>mymail@mail.ru</p>
                 </div>
@@ -171,6 +193,6 @@
         </div>
     </footer> 
 
-    <script src="js/routes.js"></script>
+    <script src="{% static 'js/routes.js' %}"></script>
 </body>
 </html> 

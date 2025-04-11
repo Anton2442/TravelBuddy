@@ -124,7 +124,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 
 .routes-header h2 {
@@ -175,19 +175,34 @@
     background-color: #f5f5f5;
 }
 
-.favorite-icon {
-    width: 24px;
-    height: 24px;
+#favourite{
+    display: flex;
+    justify-content: center;
+    align-items:center;
+}
+
+#favourite img{
+    width: 34px;
+    height: 34px;
     cursor: pointer;
-    transition: transform 0.2s;
 }
 
-.favorite-icon:hover {
-    transform: scale(1.1);
+#edit{
+    justify-self: center;
 }
 
-.favorite-icon.active path {
-    fill: #FFD700;
+#edit img{
+    width: 40px;
+    transition: 0.2s; 
+}
+
+#edit img:hover{
+    transform: scale(1.15); 
+}
+
+.Favbtn {
+    border: none;
+    background: none;
 }
 
 .no-routes-message {
@@ -223,4 +238,43 @@
 .nav-link.active {
     color: #4CAF50;
     font-weight: bold;
+}
+
+.filters-container {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.filter-group label {
+    font-weight: 500;
+    color: #333;
+}
+
+.filter-group select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 14px;
+    min-width: 150px;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.filter-group select:hover {
+    border-color: #007bff;
+}
+
+.filter-group select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
 } 

@@ -1,70 +1,118 @@
 document.addEventListener('DOMContentLoaded', function() {
+    const categoryFilter = document.getElementById('route-category');
+    const favoriteFilter = document.getElementById('favorite-filter');
     const routesTable = document.getElementById('routes-tbody');
     const noRoutesMessage = document.getElementById('no-routes');
-    const categoryFilter = document.getElementById('route-category');
     
     // Пример данных маршрутов (в реальном приложении будут загружаться с сервера)
-    let routes = [
-        {
-            id: 1,
-            name: 'Путешествие по Золотому кольцу',
-            date: '2024-03-15',
-            cost: '25000',
-            attractions: 'Суздаль, Владимир, Ярославль',
-            category: 'history',
-            isFavorite: false
-        }
-        // Другие маршруты будут добавляться здесь
-    ];
+   
+    function filterRoutes() {
+        const selectedCategory = categoryFilter.value;
+        const selectedFavorite = favoriteFilter.value;
+        let visibleCount = 0;
 
-    function createFavoriteIcon(isFavorite) {
-        return `
-            <svg class="favorite-icon ${isFavorite ? 'active' : ''}" viewBox="0 0 24 24">
-                <path fill="${isFavorite ? '#FFD700' : '#ccc'}" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-            </svg>
-        `;
-    }
+        Array.from(routesTable.getElementsByTagName('tr')).forEach(row => {
+            const category = row.getAttribute('data-category');
+            const isFavorite = row.getAttribute('data-favorite') === 'True';
+            
+            // Проверяем соответствие категории
+            const categoryMatch = selectedCategory === 'all' || category === selectedCategory;
+            
+            // Проверяем соответствие фильтру избранного
+            let favoriteMatch = true;
+            if (selectedFavorite === 'favorite') {
+                favoriteMatch = isFavorite;
+            } else if (selectedFavorite === 'not-favorite') {
+                favoriteMatch = !isFavorite;
+            }
 
-    function renderRoutes(filteredRoutes = routes) {
-        if (filteredRoutes.length === 0) {
-            routesTable.innerHTML = '';
-            noRoutesMessage.style.display = 'block';
-            return;
-        }
-
-        noRoutesMessage.style.display = 'none';
-        routesTable.innerHTML = filteredRoutes.map(route => `
-            <tr data-id="${route.id}">
-                <td>${route.name}</td>
-                <td>${new Date(route.date).toLocaleDateString('ru-RU')}</td>
-                <td>${parseInt(route.cost).toLocaleString('ru-RU')} ₽</td>
-                <td>${route.attractions}</td>
-                <td class="favorite-cell">${createFavoriteIcon(route.isFavorite)}</td>
-            </tr>
-        `).join('');
-
-        // Добавляем обработчики для иконок избранного
-        document.querySelectorAll('.favorite-icon').forEach(icon => {
-            icon.addEventListener('click', function() {
-                const row = this.closest('tr');
-                const routeId = parseInt(row.dataset.id);
-                const route = routes.find(r => r.id === routeId);
-                route.isFavorite = !route.isFavorite;
-                this.classList.toggle('active');
-                this.querySelector('path').setAttribute('fill', route.isFavorite ? '#FFD700' : '#ccc');
-            });
+            // Показываем строку, если она соответствует обоим фильтрам
+            if (categoryMatch && favoriteMatch) {
+                row.style.display = '';
+                visibleCount++;
+            } else {
+                row.style.display = 'none';
+            }
         });
+
+        // Показываем сообщение, если нет видимых маршрутов
+        noRoutesMessage.style.display = visibleCount === 0 ? '' : 'none';
     }
 
-    // Обработчик изменения фильтра категории
-    categoryFilter.addEventListener('change', function() {
-        const selectedCategory = this.value;
-        const filteredRoutes = selectedCategory === 'all' 
-            ? routes 
-            : routes.filter(route => route.category === selectedCategory);
-        renderRoutes(filteredRoutes);
+    // Инициализация фильтров
+    categoryFilter.addEventListener('change', filterRoutes);
+    favoriteFilter.addEventListener('change', filterRoutes);
+
+    // Обработка формы избранного
+    document.querySelectorAll('.favorite-form').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            
+            fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': csrfToken
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    const button = this.querySelector('button');
+                    const img = button.querySelector('img');
+                    const row = this.closest('tr');
+                    
+                    if (data.favorite) {
+                        img.src = '/static/images/Icons/FavouriteFilled.svg';
+                        row.setAttribute('data-favorite', 'True');
+                    } else {
+                        img.src = '/static/images/Icons/Favourite.svg';
+                        row.setAttribute('data-favorite', 'False');
+                    }
+                    
+                    filterRoutes();
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
     });
 
-    // Инициализация отображения маршрутов
-    renderRoutes();
+    // Применяем фильтры при загрузке страницы
+    filterRoutes();
 }); 
+
+document.querySelectorAll('form[action*="change_favourite"]').forEach(form => {
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                }
+            });
+            
+            const data = await response.json();
+            
+            if (data.status === 'success') {
+                const button = form.querySelector('button');
+                const img = button.querySelector('img');
+                if (!data.favorite) {
+                    img.src = "/templates/images/Icons/Favourite.svg";
+                } else {
+                    img.src = "/templates/images/Icons/FavouriteFilled.svg";
+                }
+            } else {
+                alert(data.message);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Произошла ошибка при изменении статуса избранного');
+        }
+    });
+});

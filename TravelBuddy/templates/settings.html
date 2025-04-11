@@ -12,7 +12,7 @@
     <header class="header">
         <nav class="nav">
             <div class="logo">
-                <img src="images/Icons/Logo.svg" alt="TBud Logo">
+                <img src="{% static 'images/Icons/Logo.svg' %}" alt="TBud Logo">
             </div>
             <ul class="nav-list">
                 <li><a href="/" class="nav-link">Главная</a></li>
@@ -20,8 +20,11 @@
                 <li><a href="/analytics" class="nav-link">Отчёты и аналитика</a></li>
             </ul>
             <div id="account">
-                <img src="images/Icons/Account.svg" alt="Account" class="default-icon">
-                <img src="images/Icons/AccountHover.svg" alt="Account" class="hover-icon">
+                <img src="{% static 'images/Icons/Account.svg' %}" alt="Account" class="account-icon">
+                <div class="dropdown-menu">
+                    <a href="/settings">Настройки</a>
+                    <a href="/logout" class="danger">Выход</a>
+                </div>
             </div>
         </nav>
     </header>
@@ -31,65 +34,91 @@
             <h1>Настройки профиля</h1>
             
             <div class="settings-content">
-                <div class="profile-section">
-                    <div class="profile-image">
-                        <img src="images/Icons/Account.svg" alt="Profile Picture">
-                        <button class="change-photo">Изменить фото</button>
-                    </div>
-                    
-                    <form class="settings-form">
+                <div class="profile-section">                    
+                    <form class="settings-form" method="post" action="{% url 'travel:settings' %}">
                         <div class="form-section">
+                            {% csrf_token %}
                             <h2>Личная информация</h2>
-                            <div class="form-group">
-                                <label for="name">Имя</label>
-                                <input type="text" id="name" value="Иван Иванов" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" id="email" value="ivan@example.com" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">Телефон</label>
-                                <input type="tel" id="phone" value="+7 (999) 123-45-67">
-                            </div>
-                        </div>
 
-                        <div class="form-section">
-                            <h2>Безопасность</h2>
-                            <div class="form-group">
-                                <label for="current-password">Текущий пароль</label>
-                                <input type="password" id="current-password">
+                            {% if messages %}
+                            <div class="messages">
+                                {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }}">
+                                    {{ message }}
+                                </div>
+                                {% endfor %}
                             </div>
-                            <div class="form-group">
-                                <label for="new-password">Новый пароль</label>
-                                <input type="password" id="new-password">
-                            </div>
-                            <div class="form-group">
-                                <label for="confirm-password">Подтвердите новый пароль</label>
-                                <input type="password" id="confirm-password">
-                            </div>
-                        </div>
+                            {% endif %}
 
-                        <div class="form-section">
-                            <h2>Настройки уведомлений</h2>
-                            <div class="form-group checkbox-group">
-                                <input type="checkbox" id="email-notifications" checked>
-                                <label for="email-notifications">Получать уведомления по email</label>
+                            <div class="form-group">
+                                <label for="{{ form.user_name.name }}">{{ form.user_name.label }}</label>
+                                {{ form.user_name }}
+                                {% if form.user_name.errors %}
+                                    {% for error in form.user_name.errors %}
+                                        <div class="alert alert-danger">{{ error }}</div>
+                                    {% endfor %}
+                                {% endif %}
                             </div>
-                            <div class="form-group checkbox-group">
-                                <input type="checkbox" id="sms-notifications">
-                                <label for="sms-notifications">Получать SMS уведомления</label>
-                            </div>
-                        </div>
 
-                        <div class="form-actions">
-                            <button type="button" class="delete-account">Удалить аккаунт</button>
+                            <div class="form-group">
+                                <label for="{{ form.email.name }}">{{ form.email.label }}</label>
+                                {{ form.email }}
+                                {% if form.email.errors %}
+                                    {% for error in form.email.errors %}
+                                        <div class="alert alert-danger">{{ error }}</div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
                             <div class="save-section">
-                                <button type="button" class="cancel-button">Отмена</button>
                                 <button type="submit" class="save-button">Сохранить изменения</button>
                             </div>
                         </div>
                     </form>
+
+                    <form class="settings-form" method="post" action="{% url 'travel:settings' %}">
+                        <div class="form-section">
+                            {% csrf_token %}
+                            <h2>Безопасность</h2>
+
+                            <div class="form-group">
+                                <label for="{{ password_form.current_password.id_for_label }}">{{ password_form.current_password.label }}</label>
+                                {{ password_form.current_password }}
+                                {% if password_form.current_password.errors %}
+                                    {% for error in password_form.current_password.errors %}
+                                        <div class="alert alert-danger">{{ error }}</div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        
+                            <div class="form-group">
+                                <label for="{{ password_form.new_password1.id_for_label }}">{{ password_form.new_password1.label }}</label>
+                                {{ password_form.new_password1 }}
+                                {% if password_form.new_password1.errors %}
+                                    {% for error in password_form.new_password1.errors %}
+                                        <div class="alert alert-danger">{{ error }}</div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="{{ password_form.new_password2.id_for_label }}">{{ password_form.new_password2.label }}</label>
+                                {{ password_form.new_password2 }}
+                                {% if password_form.new_password2.errors %}
+                                    {% for error in password_form.new_password2.errors %}
+                                        <div class="alert alert-danger">{{ error }}</div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+
+                            <div class="save-section">
+                                <button type="submit" class="save-button">Изменить пароль</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="form-actions">
+                        <a style="text-decoration: none;" href="{% url 'travel:delete_user' %}" class="delete-account">Удалить аккаунт</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -99,7 +128,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-info">
-                    <img src="images/Icons/LogoBlack.svg" alt="TBud Logo" class="footer-logo">
+                    <img src="{% static 'images/Icons/LogoBlack.svg' %}" alt="TBud Logo" class="footer-logo">
                     <a href="tel:+88005555535">+8 800 555 35 35</a>
                     <p>mymail@mail.ru</p>
                 </div>

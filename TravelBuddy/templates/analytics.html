@@ -12,7 +12,7 @@
     <header class="header">
         <nav class="nav">
             <div class="logo">
-                <img src="images/Icons/Logo.svg" alt="TBud Logo">
+                <img src="{% static 'images/Icons/Logo.svg' %}" alt="TBud Logo">
             </div>
             <ul class="nav-list">
                 <li class="nav-item"><a href="/" class="nav-link">Главная</a></li>
@@ -20,14 +20,13 @@
                     <a href="/routes" class="nav-link">Маршруты</a>
                     <div class="dropdown-menu">
                         <a href="/routes">Все маршруты</a>
-                        <a href="/routes/create">Создать маршрут</a>
+                        <a href="{% url 'travel:edit_route' route_id=0 %}">Создать маршрут</a>
                     </div>
                 </li>
                 <li class="nav-item"><a href="/analytics" class="nav-link active">Отчёты и аналитика</a></li>
             </ul>
             <div id="account">
-                <img src="images/Icons/Account.svg" alt="Account" class="default-icon">
-                <img src="images/Icons/AccountHover.svg" alt="Account" class="hover-icon">
+                <img src="{% static 'images/Icons/Account.svg' %}" alt="Account" class="account-icon">
                 <div class="dropdown-menu">
                     <a href="/settings">Настройки</a>
                     <a href="/logout" class="danger">Выход</a>
@@ -43,19 +42,22 @@
             <div class="analytics-grid">
                 <div class="analytics-card total-routes">
                     <h3>Общее количество маршрутов</h3>
-                    <div class="stat-value">15</div>
+                    <div class="stat-value">{{ routes_count }}</div>
                     <div class="stat-trend positive">
-                        <span>+3 за последний месяц</span>
+                        <span>+{{ routes_last_month }} за последний месяц</span>
                     </div>
                 </div>
 
                 <div class="analytics-card favorite-category">
                     <h3>Любимая категория</h3>
                     <div class="stat-value">
-                        <img src="images/Icons/culture.svg" alt="Культура">
-                        <span>Культура и традиции</span>
+                        {% if favorite_category %}
+                        <span>{{ favorite_category.category_name }}</span>
+                        {% else %}
+                        <span>Нет маршрутов</span>
+                        {% endif %}
                     </div>
-                    <div class="stat-detail">6 маршрутов</div>
+                    <div class="stat-detail">{{ favorite_category_count }} маршрутов</div>
                 </div>
 
                 <div class="analytics-card route-costs">
@@ -63,15 +65,15 @@
                     <div class="cost-stats">
                         <div class="cost-item">
                             <span>Самый дорогой:</span>
-                            <strong>25,000 ₽</strong>
+                            <strong>{{ max_cost }} ₽</strong>
                         </div>
                         <div class="cost-item">
                             <span>Самый дешёвый:</span>
-                            <strong>2,500 ₽</strong>
+                            <strong>{{ min_cost }} ₽</strong>
                         </div>
                         <div class="cost-item">
                             <span>Средняя стоимость:</span>
-                            <strong>12,750 ₽</strong>
+                            <strong>{{ average_cost }} ₽</strong>
                         </div>
                     </div>
                 </div>
@@ -79,22 +81,15 @@
                 <div class="analytics-card last-route">
                     <h3>Последний маршрут</h3>
                     <div class="route-info">
-                        <div class="route-name">Путешествие по Золотому кольцу</div>
-                        <div class="route-date">15 марта 2024</div>
+                        {% if last_route %}
+                        <div class="route-name">{{ last_route.route_name }}</div>
+                        <div class="route-date">{{ last_route.date }}</div>
                         <div class="route-category">
-                            <img src="images/Icons/history.svg" alt="История">
-                            <span>Исторические объекты</span>
+                            <span>{{ last_route.category_id }}</span>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="analytics-chart-section">
-                <h2>Статистика по месяцам</h2>
-                <div class="chart-container">
-                    <!-- Here would be a chart showing routes created per month -->
-                    <div class="placeholder-chart">
-                        График активности будет добавлен позже
+                        {% else %}
+                        <div class="stat-value">Нет маршрутов</div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -105,7 +100,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-info">
-                    <img src="images/Icons/LogoBlack.svg" alt="TBud Logo" class="footer-logo">
+                    <img src="{% static 'images/Icons/LogoBlack.svg' %}" alt="TBud Logo" class="footer-logo">
                     <a href="tel:+88005555535">+8 800 555 35 35</a>
                     <p>mymail@mail.ru</p>
                 </div>
@@ -139,4 +134,4 @@
         </div>
     </footer> 
 </body>
-</html> 
+</html>

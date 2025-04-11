@@ -12,7 +12,7 @@
     <header class="header">
         <nav class="nav">
             <div class="logo">
-                <img src="images/Icons/Logo.svg" alt="TBud Logo">
+                <img src="{% static 'images/Icons/Logo.svg' %}" alt="TBud Logo">
             </div>
             <ul class="nav-list">
                 <li><a href="/" class="nav-link">Главная</a></li>
@@ -20,8 +20,11 @@
                 <li><a href="/analytics" class="nav-link">Отчёты и аналитика</a></li>
             </ul>
             <div id="account">
-                <img src="images/Icons/Account.svg" alt="Account" class="default-icon">
-                <img src="images/Icons/AccountHover.svg" alt="Account" class="hover-icon">
+                <img src="{% static 'images/Icons/Account.svg' %}" alt="Account" class="account-icon">
+                <div class="dropdown-menu">
+                    <a href="/settings">Настройки</a>
+                    <a href="/logout" class="danger">Выход</a>
+                </div>
             </div>
         </nav>
     </header>
@@ -35,8 +38,8 @@
                     <h2>Основная информация</h2>
                     {% csrf_token %}
                     {% for field in form %}
-                    {% if field.name == "favourite" %}
-                    <div class="form-group">
+                    {% if field.name == "favorite" %}
+                    <div class="form-group" id="favourite-form-group">
                         <label for="{{ field.name }}">{{ field.label }}</label>
                         {{ field }}
                     </div>
@@ -66,7 +69,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-info">
-                    <img src="images/Icons/LogoBlack.svg" alt="TBud Logo" class="footer-logo">
+                    <img src="{% static 'images/Icons/LogoBlack.svg' %}" alt="TBud Logo" class="footer-logo">
                     <a href="tel:+88005555535">+8 800 555 35 35</a>
                     <p>mymail@mail.ru</p>
                 </div>
