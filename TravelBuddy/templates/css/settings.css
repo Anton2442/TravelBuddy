@@ -24,37 +24,6 @@
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.profile-image {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-.profile-image img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    margin-bottom: 1rem;
-    object-fit: cover;
-    border: 3px solid #4CAF50;
-}
-
-.change-photo {
-    background: none;
-    border: 2px solid #4CAF50;
-    color: #4CAF50;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.9rem;
-}
-
-.change-photo:hover {
-    background: #e8f5e9;
-}
-
 .form-section {
     margin-bottom: 2rem;
     padding-bottom: 2rem;
@@ -122,11 +91,6 @@
     margin-top: 2rem;
 }
 
-.save-section {
-    display: flex;
-    gap: 1rem;
-}
-
 .delete-account {
     background: #ff5252;
     color: white;
@@ -142,7 +106,7 @@
 
 .cancel-button,
 .save-button {
-    padding: 0.8rem 1.5rem;
+    padding: 1.0rem 1.5rem;
     border-radius: 5px;
     font-size: 1rem;
     cursor: pointer;

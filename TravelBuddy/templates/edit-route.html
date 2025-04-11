@@ -16,7 +16,13 @@
             </div>
             <ul class="nav-list">
                 <li><a href="/" class="nav-link">Главная</a></li>
-                <li><a href="/routes" class="nav-link">Маршруты</a></li>
+                <li class="nav-item">
+                    <a href="/routes" class="nav-link">Маршруты</a>
+                    <div class="dropdown-menu">
+                        <a href="/routes">Все маршруты</a>
+                        <a href="{% url 'travel:edit_route' route_id=0 %}">Создать маршрут</a>
+                    </div>
+                </li>
                 <li><a href="/analytics" class="nav-link">Отчёты и аналитика</a></li>
             </ul>
             <div id="account">
