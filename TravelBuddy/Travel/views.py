@@ -2,11 +2,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.utils import timezone
 from datetime import timedelta
 from .models import Route, Category, User
 from .forms import RouteForm, LoginForm, UserForm, ProfileEditForm, PasswordChangeForm
+import json
+from io import BytesIO
+import xlsxwriter
 
 def login_view(request):
     if request.method == 'POST':
@@ -190,3 +193,40 @@ def delete_user(request):
     request.user.delete()
     logout(request)
     return redirect('travel:login')
+
+@login_required
+def download_excel(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            headers = data.get('headers', [])
+            rows = data.get('data', [])
+
+            # Создаем Excel файл
+            output = BytesIO()
+            workbook = xlsxwriter.Workbook(output)
+            worksheet = workbook.add_worksheet()
+
+            # Добавляем заголовки
+            for col, header in enumerate(headers):
+                worksheet.write(0, col, header)
+
+            # Добавляем данные
+            for row_num, row_data in enumerate(rows, start=1):
+                for col_num, cell_data in enumerate(row_data):
+                    worksheet.write(row_num, col_num, cell_data)
+
+            workbook.close()
+            output.seek(0)
+
+            response = HttpResponse(
+                output.getvalue(),
+                content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            )
+            response['Content-Disposition'] = 'attachment; filename=routes.xlsx'
+            return response
+
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+
+    return JsonResponse({'error': 'Invalid request method'}, status=400)

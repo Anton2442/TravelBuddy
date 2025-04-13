@@ -277,4 +277,28 @@
     outline: none;
     border-color: #007bff;
     box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.download-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Rubik', sans-serif;
+    transition: background-color 0.3s;
+}
+
+.download-btn:hover {
+    background-color: #3d8b40;
+}
+
+.download-btn img {
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) invert(1);
 } 

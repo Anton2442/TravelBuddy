@@ -97,12 +97,12 @@
                     <h2>Мои маршруты</h2>
                     
                     <div class="filters-container">
-
                         <div class="filter-group">
-                            <label for="sort-type">Сортировка:</label>
-                            <select id="sort-type">
-                                <option value="all">Все сортировки</option>
-                                <!-- Тоха сюда код вставляй -->
+                            <label for="sort-select">Сортировка:</label>
+                            <select id="sort-select">
+                                <option value="none">Без сортировки</option>
+                                <option value="date">По дате (новые сверху)</option>
+                                <option value="cost">По стоимости (дорогие сверху)</option>
                             </select>
                         </div>
                     
@@ -123,10 +123,13 @@
                                 <option value="not-favorite">Не избранные</option>
                             </select>
                         </div>
+                        <button id="download-excel" class="download-btn">
+                            Скачать Excel
+                        </button>
                     </div>
                 </div>
                 
-                <table class="routes-table">
+                <table class="routes-table" id="routes-table">
                     <thead>
                         <tr>
                             <th>Название маршрута</th>
@@ -141,7 +144,9 @@
                         {% for route in routes %}
                         <tr onclick="window.location.href='{% url 'travel:edit_route' route_id=route.id %}'" style="cursor: pointer;" 
                             data-category="{{ route.category_id.category_name }}"
-                            data-favorite="{{ route.favorite }}">
+                            data-favorite="{{ route.favorite }}"
+                            data-date="{{ route.date|date:'Y-m-d' }}"
+                            data-cost="{{ route.cost }}">
                             <td>{{ route.route_name }}</td>
                             <td>{{ route.category_id.category_name }}</td>
                             <td>{{ route.date }}</td>

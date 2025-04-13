@@ -15,4 +15,5 @@ urlpatterns = [
     path('analytics/', views.analytics, name='analytics'),
     path('settings/', views.settings, name='settings'),
     path('settings/delete_user/', views.delete_user, name='delete_user'),
+    path('download-excel/', views.download_excel, name='download_excel'),
 ] 
