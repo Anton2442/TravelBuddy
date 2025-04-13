@@ -5,8 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Настройки - TravelBuddy</title>
+
+    {% if user.is_authenticated and user.dark_theme %}
+    <link rel="stylesheet" href="{% static 'css/dark_style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dark_settings.css' %}">
+    {% else %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/settings.css' %}">
+    {% endif %}
 </head>
 <body>
     <header class="header">
@@ -26,7 +32,7 @@
                 <li><a href="/analytics" class="nav-link">Аналитика</a></li>
             </ul>
             <div id="account">
-                <img src="{% static 'images/Icons/Account.svg' %}" alt="Account" class="account-icon">
+                <img class="logo-image" src="{% static 'images/Icons/Account.svg' %}" alt="Account" class="account-icon">
                 <div class="dropdown-menu">
                     <a href="/settings">Настройки</a>
                     <a href="/logout" class="danger">Выход</a>
@@ -42,10 +48,10 @@
             <div class="settings-content">
                 <div class="profile-section">                    
                     <form class="settings-form" method="post" action="{% url 'travel:settings' %}">
+                        {% csrf_token %}
                         <div class="form-section">
-                            {% csrf_token %}
                             <h2>Личная информация</h2>
-
+                                
                             {% if messages %}
                             <div class="messages">
                                 {% for message in messages %}
@@ -75,6 +81,17 @@
                                     {% endfor %}
                                 {% endif %}
                             </div>
+
+                            <div class="form-group">
+                                <label for="{{ form.dark_theme.name }}">{{ form.dark_theme.label }}</label>
+                                {{ form.dark_theme }}
+                                {% if form.dark_theme.errors %}
+                                    {% for error in form.dark_theme.errors %}
+                                        <div class="alert alert-danger">{{ error }}</div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+
                             <div class="save-section">
                                 <button type="submit" class="save-button">Сохранить изменения</button>
                             </div>
@@ -82,8 +99,8 @@
                     </form>
 
                     <form class="settings-form" method="post" action="{% url 'travel:settings' %}">
+                        {% csrf_token %}
                         <div class="form-section">
-                            {% csrf_token %}
                             <h2>Безопасность</h2>
 
                             <div class="form-group">
@@ -136,7 +153,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-info">
-                    <img src="{% static 'images/Icons/LogoBlack.svg' %}" alt="TBud Logo" class="footer-logo">
+                    <img class="logo-image" src="{% static 'images/Icons/LogoBlack.svg' %}" alt="TBud Logo" class="footer-logo">
                     <a href="tel:+88005555535">+8 800 555 35 35</a>
                     <p>mymail@mail.ru</p>
                 </div>

@@ -31,6 +31,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
+    dark_theme = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'login'
     REQUIRED_FIELDS = ['email', 'user_name']

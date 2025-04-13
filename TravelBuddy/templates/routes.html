@@ -5,8 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Маршруты - TravelBuddy</title>
+    
+    {% if user.is_authenticated and user.dark_theme %}
+    <link rel="stylesheet" href="{% static 'css/dark_style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dark_routes.css' %}">
+    {% else %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/routes.css' %}">
+    {% endif %}
 </head>
 <body>
     <header class="header">
@@ -26,7 +32,7 @@
                 <li class="nav-item"><a href="/analytics" class="nav-link">Аналитика</a></li>
             </ul>
             <div id="account">
-                <img src="{% static 'images/Icons/Account.svg' %}" alt="Account" class="account-icon">
+                <img class="logo-image" src="{% static 'images/Icons/Account.svg' %}" alt="Account" class="account-icon">
                 <div class="dropdown-menu">
                     <a href="/settings">Настройки</a>
                     <a href="/logout" class="danger">Выход</a>
@@ -44,14 +50,14 @@
                 <div class="categories-grid">
                     <div class="category-row">
                         <div class="category-card">
-                            <img src="{% static 'images/Icons/CultureCategory.svg' %}" alt="Культура">
+                            <img class="logo-image" src="{% static 'images/Icons/CultureCategory.svg' %}" alt="Культура">
                             <div class="category-text">
                                 <strong>Культурный:</strong>
                                 <p>Знакомство с традициями, искусством региона.</p>
                             </div>
                         </div>
                         <div class="category-card">
-                            <img src="{% static 'images/Icons/HistoryCategory.svg' %}" alt="История">
+                            <img class="logo-image" src="{% static 'images/Icons/HistoryCategory.svg' %}" alt="История">
                             <div class="category-text">
                                 <strong>Исторический:</strong>
                                 <p>Посещение древних городов, замков, руин и других исторических объектов.</p>
@@ -60,14 +66,14 @@
                     </div>
                     <div class="category-row">
                         <div class="category-card">
-                            <img src="{% static 'images/Icons/EconomyCategory.svg' %}" alt="Природа">
+                            <img class="logo-image" src="{% static 'images/Icons/EconomyCategory.svg' %}" alt="Природа">
                             <div class="category-text">
                                 <strong>Экологический:</strong>
                                 <p>Фокус на природе, экотуризме и сохранении окружающей среды.</p>
                             </div>
                         </div>
                         <div class="category-card">
-                            <img src="{% static 'images/Icons/FoodCategory.svg' %}" alt="Кухня">
+                            <img class="logo-image" src="{% static 'images/Icons/FoodCategory.svg' %}" alt="Кухня">
                             <div class="category-text">
                                 <strong>Кулинарный:</strong>
                                 <p>Изучение местной кухни, дегустация блюд и напитков.</p>
@@ -76,7 +82,7 @@
                     </div>
                     <div class="category-row center">
                         <div class="category-card">
-                            <img src="{% static 'images/Icons/SportCategory.svg' %}" alt="Спорт">
+                            <img class="logo-image" src="{% static 'images/Icons/SportCategory.svg' %}" alt="Спорт">
                             <div class="category-text">
                                 <strong>Активный:</strong>
                                 <p>Спортивные или приключенческие путешествия.</p>
@@ -169,7 +175,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-info">
-                    <img src="{% static 'images/Icons/LogoBlack.svg' %}" alt="TBud Logo" class="footer-logo">
+                    <img class="logo-image" src="{% static 'images/Icons/LogoBlack.svg' %}" alt="TBud Logo" class="footer-logo">
                     <a href="tel:+88005555535">+8 800 555 35 35</a>
                     <p>mymail@mail.ru</p>
                 </div>

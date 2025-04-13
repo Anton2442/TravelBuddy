@@ -5,8 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Редактирование маршрута - TravelBuddy</title>
+    {% if user.is_authenticated and user.dark_theme %}
+    <link rel="stylesheet" href="{% static 'css/dark_style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dark_edit-route.css' %}">
+    {% else %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/edit-route.css' %}">
+    {% endif %}
 </head>
 <body class="light-theme">
     <header class="header">
@@ -26,7 +31,7 @@
                 <li><a href="/analytics" class="nav-link">Аналитика</a></li>
             </ul>
             <div id="account">
-                <img src="{% static 'images/Icons/Account.svg' %}" alt="Account" class="account-icon">
+                <img class="logo-image" src="{% static 'images/Icons/Account.svg' %}" alt="Account" class="account-icon">
                 <div class="dropdown-menu">
                     <a href="/settings">Настройки</a>
                     <a href="/logout" class="danger">Выход</a>
@@ -73,14 +78,12 @@
             </form>
         </div>
     </main>
-
-    <button id="ThemeChanger"><img id="ThemeIcon" src="{% static 'images/Icons/DarkTheme.svg' %}" alt="ThemeIcon"></button>
-    
+      
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-info">
-                    <img src="{% static 'images/Icons/LogoBlack.svg' %}" alt="TBud Logo" class="footer-logo">
+                    <img class="logo-image" src="{% static 'images/Icons/LogoBlack.svg' %}" alt="TBud Logo" class="footer-logo">
                     <a href="tel:+88005555535">+8 800 555 35 35</a>
                     <p>mymail@mail.ru</p>
                 </div>

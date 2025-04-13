@@ -79,14 +79,16 @@ class FavoriteForm(forms.ModelForm):
 class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['user_name', 'email']
+        fields = ['user_name', 'email', 'dark_theme']
         labels = {
             'user_name': 'Имя пользователя',
             'email': 'Email',
+            'dark_theme': 'Тёмная тема',
         }
         widgets = {
             'user_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Имя пользователя'}),
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}),
+            'dark_theme': forms.CheckboxInput(attrs={'class': 'form-control'}),
         }
 
 class PasswordChangeForm(forms.Form):
