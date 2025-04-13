@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/edit-route.css' %}">
 </head>
-<body>
+<body class="light-theme">
     <header class="header">
         <nav class="nav">
             <div class="logo">
@@ -74,6 +74,8 @@
         </div>
     </main>
 
+    <button id="ThemeChanger"><img id="ThemeIcon" src="{% static 'images/Icons/DarkTheme.svg' %}" alt="ThemeIcon"></button>
+    
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -111,5 +113,8 @@
             </div>
         </div>
     </footer> 
+
+    <script src="{% static 'js/theme.js' %}"></script>
+
 </body>
 </html> 
