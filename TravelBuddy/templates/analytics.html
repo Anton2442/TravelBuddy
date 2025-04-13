@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Отчёты и аналитика - TravelBuddy</title>
+    <title>Аналитика - TravelBuddy</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/analytics.css' %}">
 </head>
@@ -23,7 +23,7 @@
                         <a href="{% url 'travel:edit_route' route_id=0 %}">Создать маршрут</a>
                     </div>
                 </li>
-                <li class="nav-item"><a href="/analytics" class="nav-link active">Отчёты и аналитика</a></li>
+                <li class="nav-item"><a href="/analytics" class="nav-link active">Аналитика</a></li>
             </ul>
             <div id="account">
                 <img src="{% static 'images/Icons/Account.svg' %}" alt="Account" class="account-icon">
@@ -37,7 +37,7 @@
 
     <main class="analytics-main">
         <div class="container">
-            <h1>Отчёты и аналитика</h1>
+            <h1>Аналитика</h1>
             
             <div class="analytics-grid">
                 <div class="analytics-card total-routes">

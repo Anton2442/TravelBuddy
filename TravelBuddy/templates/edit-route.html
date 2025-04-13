@@ -23,7 +23,7 @@
                         <a href="{% url 'travel:edit_route' route_id=0 %}">Создать маршрут</a>
                     </div>
                 </li>
-                <li><a href="/analytics" class="nav-link">Отчёты и аналитика</a></li>
+                <li><a href="/analytics" class="nav-link">Аналитика</a></li>
             </ul>
             <div id="account">
                 <img src="{% static 'images/Icons/Account.svg' %}" alt="Account" class="account-icon">
@@ -65,6 +65,9 @@
 
                 <div class="form-actions">
                     <a href="{% url 'travel:routes' %}" class="cancel-button">Отмена</a>
+                    {% if route_id != 0 %}
+                    <a style="text-decoration: none;" href="{% url 'travel:delete_route' route_id=route_id %}" class="delete-route">Удалить маршрут</a>
+                    {% endif %}
                     <button type="submit" class="save-button">Сохранить маршрут</button>
                 </div>
             </form>

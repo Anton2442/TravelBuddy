@@ -240,25 +240,25 @@
     font-weight: bold;
 }
 
-.filters-container {
+.filters-container{
     display: flex;
     gap: 20px;
     align-items: center;
     margin-bottom: 20px;
 }
 
-.filter-group {
+.filter-group{
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.filter-group label {
+.filter-group label, .sort-group label {
     font-weight: 500;
     color: #333;
 }
 
-.filter-group select {
+.filter-group select, .sort-group label {
     padding: 8px 12px;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -269,11 +269,11 @@
     transition: border-color 0.3s ease;
 }
 
-.filter-group select:hover {
+.filter-group select:hover, .sort-group label:hover {
     border-color: #007bff;
 }
 
-.filter-group select:focus {
+.filter-group select:focus, .sort-group label:focus {
     outline: none;
     border-color: #007bff;
     box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);

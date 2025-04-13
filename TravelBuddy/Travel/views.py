@@ -57,7 +57,7 @@ def edit_route(request, route_id):
                 return redirect('travel:routes')
         else:
             form = RouteForm(instance=route)
-        return render(request, 'edit-route.html', {'form': form})
+        return render(request, 'edit-route.html', {'form': form, 'route_id': route_id})
     else:
         if request.method == 'POST':
             form = RouteForm(request.POST)
@@ -68,14 +68,13 @@ def edit_route(request, route_id):
                 return redirect('travel:routes')
         else:
             form = RouteForm()
-        return render(request, 'edit-route.html', {'form': form})
+        return render(request, 'edit-route.html', {'form': form, 'route_id': route_id})
 
 @login_required
 def delete_route(request, route_id):
     route = get_object_or_404(Route, id=route_id, user_id=request.user)
-    if request.method == 'POST':
-        route.delete()
-        return redirect('travel:routes')
+    route.delete()
+    return redirect('travel:routes')
     
 
 @login_required

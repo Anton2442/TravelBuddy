@@ -23,7 +23,7 @@
                         <a href="{% url 'travel:edit_route' route_id=0 %}">Создать маршрут</a>
                     </div>
                 </li>
-                <li><a href="/analytics" class="nav-link">Отчёты и аналитика</a></li>
+                <li><a href="/analytics" class="nav-link">Аналитика</a></li>
             </ul>
             <div id="account">
                 <img src="{% static 'images/Icons/Account.svg' %}" alt="Account" class="account-icon">
@@ -115,15 +115,15 @@
                                     {% endfor %}
                                 {% endif %}
                             </div>
-                                                      
+                            <div class="save-section">
+                                <button type="submit" class="save-button">Изменить пароль</button>
+                            </div>                      
                         </div>
                     </form>
                     
                     
                     <div class="form-actions">
-                        <div class="save-section">
-                            <button type="submit" class="save-button">Изменить пароль</button>
-                        </div>
+                        
                         <a style="text-decoration: none;" href="{% url 'travel:delete_user' %}" class="delete-account">Удалить аккаунт</a>
                     </div>
                     

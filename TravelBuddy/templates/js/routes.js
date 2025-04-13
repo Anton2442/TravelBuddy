@@ -4,8 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const routesTable = document.getElementById('routes-tbody');
     const noRoutesMessage = document.getElementById('no-routes');
     
-    // Пример данных маршрутов (в реальном приложении будут загружаться с сервера)
-   
+    
     function filterRoutes() {
         const selectedCategory = categoryFilter.value;
         const selectedFavorite = favoriteFilter.value;
@@ -15,10 +14,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const category = row.getAttribute('data-category');
             const isFavorite = row.getAttribute('data-favorite') === 'True';
             
-            // Проверяем соответствие категории
             const categoryMatch = selectedCategory === 'all' || category === selectedCategory;
             
-            // Проверяем соответствие фильтру избранного
             let favoriteMatch = true;
             if (selectedFavorite === 'favorite') {
                 favoriteMatch = isFavorite;
@@ -26,7 +23,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 favoriteMatch = !isFavorite;
             }
 
-            // Показываем строку, если она соответствует обоим фильтрам
             if (categoryMatch && favoriteMatch) {
                 row.style.display = '';
                 visibleCount++;
@@ -35,15 +31,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Показываем сообщение, если нет видимых маршрутов
         noRoutesMessage.style.display = visibleCount === 0 ? '' : 'none';
     }
 
-    // Инициализация фильтров
     categoryFilter.addEventListener('change', filterRoutes);
     favoriteFilter.addEventListener('change', filterRoutes);
 
-    // Обработка формы избранного
     document.querySelectorAll('.favorite-form').forEach(form => {
         form.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -79,7 +72,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Применяем фильтры при загрузке страницы
     filterRoutes();
 }); 
 

@@ -23,7 +23,7 @@
                         <a href="{% url 'travel:edit_route' route_id=0 %}">Создать маршрут</a>
                     </div>
                 </li>
-                <li class="nav-item"><a href="/analytics" class="nav-link">Отчёты и аналитика</a></li>
+                <li class="nav-item"><a href="/analytics" class="nav-link">Аналитика</a></li>
             </ul>
             <div id="account">
                 <img src="{% static 'images/Icons/Account.svg' %}" alt="Account" class="account-icon">
@@ -89,7 +89,17 @@
             <section class="routes-list">
                 <div class="routes-header">
                     <h2>Мои маршруты</h2>
+                    
                     <div class="filters-container">
+
+                        <div class="filter-group">
+                            <label for="sort-type">Сортировка:</label>
+                            <select id="sort-type">
+                                <option value="all">Все сортировки</option>
+                                <!-- Тоха сюда код вставляй -->
+                            </select>
+                        </div>
+                    
                         <div class="filter-group">
                             <label for="route-category">Категория:</label>
                             <select id="route-category">
