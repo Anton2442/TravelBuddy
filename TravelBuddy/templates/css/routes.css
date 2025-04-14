@@ -248,7 +248,9 @@
 }
 
 .filter-group{
-    display: flex;
+    display: grid;
+    grid-template-columns: 2;
+    grid-template-rows: 2;
     align-items: center;
     gap: 10px;
 }
